@@ -16,9 +16,9 @@
       "dom"
     ],
     "paths": {
-      "ng-paging": [
-        "dist/ng-paging/ng-paging",
-        "dist/ng-paging"
+      "ngx-paging": [
+        "dist/ngx-paging/ngx-paging",
+        "dist/ngx-paging"
       ]
     }
   },
