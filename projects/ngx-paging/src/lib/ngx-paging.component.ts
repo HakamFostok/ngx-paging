@@ -131,7 +131,7 @@ export class NgxPagingComponent implements OnDestroy {
   public get maxPageCount(): number {
     return this._maxPageCount;
   }
-  public set maxPageCount(maxPageCount: number) {
+  @Input() public set maxPageCount(maxPageCount: number) {
     // if the parameter is even number, then convert it to odd number
     if (maxPageCount % 2 == 0)
       maxPageCount++;
