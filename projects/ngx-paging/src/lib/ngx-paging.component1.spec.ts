@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgPagingComponent } from './ng-paging.component';
+import { NgxPagingComponent } from './ngx-paging.component';
 
-describe('NgPagingComponent  totalElementsCount = 100, pageSize = 5', () => {
-  let component: NgPagingComponent;
-  let fixture: ComponentFixture<NgPagingComponent>;
+describe('NgxPagingComponent  totalElementsCount = 100, pageSize = 5', () => {
+  let component: NgxPagingComponent;
+  let fixture: ComponentFixture<NgxPagingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [NgPagingComponent]
+      declarations: [NgxPagingComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgPagingComponent);
+    fixture = TestBed.createComponent(NgxPagingComponent);
     component = fixture.componentInstance;
     component.totalElementsCount = 100;
     component.pageSize = 5;

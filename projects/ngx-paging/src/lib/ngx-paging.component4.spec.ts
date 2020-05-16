@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgPagingComponent } from './ng-paging.component';
+import { NgxPagingComponent } from './ngx-paging.component';
 
-describe('NgPagingComponent totalElementsCount = 10, pageSize = 20', () => {
-  let component: NgPagingComponent;
-  let fixture: ComponentFixture<NgPagingComponent>;
+describe('NgxPagingComponent  totalElementsCount = 0, pageSize = 0', () => {
+  let component: NgxPagingComponent;
+  let fixture: ComponentFixture<NgxPagingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NgPagingComponent ]
+      declarations: [NgxPagingComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(NgPagingComponent);
+    fixture = TestBed.createComponent(NgxPagingComponent);
     component = fixture.componentInstance;
-    component.totalElementsCount = 10;
-    component.pageSize = 20;
+    component.totalElementsCount = 0;
+    component.pageSize = 0;
 
     fixture.detectChanges();
   });
@@ -26,13 +26,12 @@ describe('NgPagingComponent totalElementsCount = 10, pageSize = 20', () => {
   });
 
   it('should get correct page number', () => {
-    expect(component.totalPagesCount).toBe(1);
+    expect(component.totalPagesCount).toBe(0);
   });
 
-  it('should be NOT navigate neither forwards nor backwards', () => {
+  it('should not be able to navigate at all', () => {
     expect(component.canGoToFirstPage).toBeFalse();
     expect(component.canGoToPreviousPage).toBeFalse();
-
     expect(component.canGoToLastPage).toBeFalse();
     expect(component.canGoToNextPage).toBeFalse();
   });
@@ -47,25 +46,28 @@ describe('NgPagingComponent totalElementsCount = 10, pageSize = 20', () => {
     expect(component.previousPage).toBe(undefined);
   });
 
-  it('should last page 1', () => {
-    expect(component.lastPage).toBe(1);
+  it('should last page 0', () => {
+    expect(component.lastPage).toBe(0);
+  });
+
+  it('should current page be 0', () => {
+    expect(component.currentPage).toBe(0);
   });
 
   it('should current page not changed with negative value', () => {
     component.currentPage = -1;
-    expect(component.currentPage).toBe(1);
+    expect(component.currentPage).toBe(0);
   });
 
   it('should current page not changed with execceding value', () => {
     component.currentPage = 2;
-    expect(component.currentPage).toBe(1);
+    expect(component.currentPage).toBe(0);
   });
 
   it('should emit event when current page changed', () => {
     spyOn(component.pageChanged, 'emit');
     component.currentPage = 2;
     expect(component.pageChanged.emit).toHaveBeenCalledTimes(0);
-    expect(component.currentPage).toBe(1);
   });
 
   it('should emit event when current page changed', () => {
@@ -81,10 +83,4 @@ describe('NgPagingComponent totalElementsCount = 10, pageSize = 20', () => {
   it('should shouldPagingComponentBeHidden property be true', () => {
     expect(component.shouldPagingComponentBeHidden).toBe(true);
   });
-
-  it('should shouldPagingComponentBeHidden property be false', () => {
-    component.showComponentAlways = true;
-    expect(component.shouldPagingComponentBeHidden).toBe(false);
-  });
-
 });

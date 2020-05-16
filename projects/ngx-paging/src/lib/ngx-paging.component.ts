@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 @Component({
-  selector: 'ng-paging',
-  templateUrl: 'ng-paging.component.html'
+  selector: 'ngx-paging',
+  templateUrl: 'ngx-paging.component.html'
 })
-export class NgPagingComponent implements OnDestroy {
+export class NgxPagingComponent implements OnDestroy {
 
   @Input() public firstPageText: string;
   @Input() public firstPageClasses: any;
