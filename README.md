@@ -46,3 +46,7 @@ You may noticed that I am using some `bootstrap` classes in this component,
 This is suitable for me, but *of course* you can use your own classes instead of the bootstrap classes. <br/>
 The bootstrap classes which I used here are `pagination`, `pagination-sm`, `active` and `disabled` <br/>
 Feel free to change them as you need.
+
+## Contrinution
+PRs is more than welcome<br/>
+No specific style is needed, your code will be refactored anyway, so use the style which you love
