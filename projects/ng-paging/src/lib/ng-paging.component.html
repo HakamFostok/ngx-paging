@@ -1,0 +1,29 @@
+<ul [hidden]="shouldPagingComponentBeHidden"
+    [ngClass]="componentClasses">
+
+  <li [class.disabled]="!canGoToFirstPage"
+      [ngClass]="firstPageClasses">
+    <a (click)="goToFirstPage()">{{ firstPageText }}</a>
+  </li>
+
+  <li [class.disabled]="!canGoToPreviousPage"
+      [ngClass]="previousPageClasses">
+    <a (click)="goToPreviousPage()">{{ previousPageText }}</a>
+  </li>
+
+  <li *ngFor="let page of generatePages()"
+      [class.active]="currentPage === page">
+    <a (click)="currentPage = page">{{ page }}</a>
+  </li>
+
+  <li [class.disabled]="!canGoToNextPage"
+      [ngClass]="nextPageClasses">
+    <a (click)="goToNextPage()">{{ nextPageText }}</a>
+  </li>
+
+  <li [class.disabled]="!canGoToLastPage"
+      [ngClass]="lastPageClasses">
+    <a (click)="goToLastPage()">{{ lastPageText }}</a>
+  </li>
+
+</ul>

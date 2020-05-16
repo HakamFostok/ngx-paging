@@ -1,43 +1,94 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'ng-paging',
-  template: `
-    <p>
-      ng-paging works!
-    </p>
-  `,
+  templateUrl: 'ng-paging.component.html'
 })
-export class NgPagingComponent implements OnInit {
-  constructor() { }
+export class NgPagingComponent implements OnDestroy {
 
-  ngOnInit(): void {
+  @Input() public firstPageText: string;
+  @Input() public firstPageClasses: any;
+
+  @Input() public lastPageText: string;
+  @Input() public lastPageClasses: any;
+
+  @Input() public nextPageText: string;
+  @Input() public nextPageClasses: any;
+
+  @Input() public previousPageText: string;
+  @Input() public previousPageClasses: any;
+
+  @Input() public showComponentAlways: boolean = false;
+  @Input() public componentClasses: any = {
+    'flip': true,
+    'pull-right': true,
+    'pagination': true,
+    'pagination-sm': true
+  };
+
+  @Output() public pageChanged: EventEmitter<number> = new EventEmitter();
+
+  private get firstPage() {
+    return (this.totalPagesCount === 0) ? 0 : 1;
   }
 
-  public pageSize: number;
-  public currentPage: number = 1;
-  public totalCount: number;
+  private _pageSize: number;
+  public get pageSize(): number {
+    return this._pageSize;
+  }
+  public set pageSize(pageSize: number) {
+    if (pageSize < 0)
+      return;
 
-  public get pageCount(): number {
-    if (this.pageSize !== 0)
-      return Math.ceil(this.totalCount / this.pageSize);
-    else
-      return 0;
+    this._pageSize = Math.round(pageSize);
   }
 
-  public setCurrentPage(page: number): void {
+  private _currentPage: number = 1;
+  public get currentPage(): number {
+    if (this.totalPagesCount === 0)
+      this._currentPage = 0;
+    return this._currentPage;
+  }
+  public set currentPage(page: number) {
+    if (!page)
+      return;
+
+    if (page < 0)
+      return;
+
+    
     if (page < this.firstPage)
       page = this.firstPage;
 
     if (page > this.lastPage)
       page = this.lastPage;
 
-    this.currentPage = page;
+    if (this._currentPage !== page) {
+      this._currentPage = page;
+      this.pageChanged.emit(this._currentPage);
+    }
   }
 
-  public firstPage = 1;
+  private _totalElementsCount: number;
+  public get totalElementsCount(): number {
+    return this._totalElementsCount;
+  }
+  @Input() public set totalElementsCount(totalElementsCount: number) {
+    if (totalElementsCount < 0)
+      return;
+
+    this._totalElementsCount = Math.round(totalElementsCount);
+  }
+
+  public get totalPagesCount(): number {
+    if (this.pageSize !== 0)
+      return Math.ceil(this.totalElementsCount / this.pageSize);
+    else
+      return 0;
+  }
+
   public get lastPage(): number {
-    return this.pageCount;
+    return (this.totalPagesCount === 0) ? 0 : this.totalPagesCount;
   }
 
   public get nextPage(): number {
@@ -55,22 +106,24 @@ export class NgPagingComponent implements OnInit {
   }
 
   public get needPaging(): boolean {
-    return this.pageCount > 1;
+    return this.totalPagesCount > 1;
   }
 
-  public get nextPageActive(): boolean {
+  public get canGoToNextPage(): boolean {
     return !!this.nextPage;
   }
 
-  public get previousPageActive(): boolean {
+  public get canGoToPreviousPage(): boolean {
     return !!this.previousPage;
   }
 
-  public get lastPageActive(): boolean {
+  public get canGoToLastPage(): boolean {
+    if (this.lastPage === 0)
+      return false;
     return (this.lastPage !== this.currentPage);
   }
 
-  public get firstPageActive() {
+  public get canGoToFirstPage(): boolean {
     return (this.firstPage !== this.currentPage);
   }
 
@@ -85,22 +138,21 @@ export class NgPagingComponent implements OnInit {
     return pages;
   }
 
-  public generateMaxPage = function () {
-    const current = this.CurrentPage();
-    const pageCount = this.PageCount();
-    const first = this.FirstPage;
+  public generateMaxPage() {
+    const current = this.currentPage;
+    const pageCount = this.totalPagesCount;
 
-    const sectionLength = parseInt((maxPageCount - 1) / 2);
+    const sectionLength = Math.round((this.maxPageCount - 1) / 2);
     let upperLimit = current + sectionLength;
     let downLimit = current - sectionLength;
 
     while (upperLimit > pageCount) {
       upperLimit--;
-      if (downLimit > first)
+      if (downLimit > this.firstPage)
         downLimit--;
     }
 
-    while (downLimit < first) {
+    while (downLimit < this.firstPage) {
       downLimit++;
       if (upperLimit < pageCount)
         upperLimit++;
@@ -113,41 +165,38 @@ export class NgPagingComponent implements OnInit {
     return pages;
   }
 
-  public getPages(): Array<number> {
-    if (this.pageCount <= maxPageCount)
+  public generatePages(): Array<number> {
+    if (this.totalPagesCount <= this.maxPageCount)
       return this.generateAllPages();
     else
       return this.generateMaxPage();
   }
 
-  public update(e) {
-    this.totalCount = e.TotalCount;
-    this.pageSize = e.pageSize;
-    this.setCurrentPage(e.currentPage);
+  public goToFirstPage(): void {
+    this.currentPage = this.firstPage;
   }
 
-  public goToPage(page: number): void {
-    if (page >= this.firstPage && page <= this.lastPage)
-      this.setCurrentPage(page);
-  }
-
-  public goToFirst(): void {
-    this.setCurrentPage(this.firstPage);
-  }
-
-  goToPrevious(): void {
+  public goToPreviousPage(): void {
     const previous = this.previousPage;
     if (previous)
-      this.setCurrentPage(previous);
+      this.currentPage = previous;
   }
 
-  goToNext(): void {
+  public goToNextPage(): void {
     const next = this.nextPage;
     if (next)
-      this.setCurrentPage(next);
+      this.currentPage = next;
   }
 
-  goToLast(): void {
-    this.setCurrentPage(this.lastPage);
+  public goToLastPage(): void {
+    this.currentPage = this.lastPage;
+  }
+
+  public get shouldPagingComponentBeHidden() {
+    return this.needPaging === false && this.showComponentAlways === false
+  }
+
+  ngOnDestroy(): void {
+    this.pageChanged.unsubscribe();
   }
 }
