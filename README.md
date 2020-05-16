@@ -1,3 +1,5 @@
+
+
 ## NgxPaging
 
 Angular paging component
@@ -5,6 +7,8 @@ Angular paging component
 ### NPM package
   
     install npm ngx-paging
+
+![](https://github.com/HakamFostok/ngx-paging/workflows/Test/badge.svg)
 
 ### Dependency
 Angular version 9.1.5 or up.
