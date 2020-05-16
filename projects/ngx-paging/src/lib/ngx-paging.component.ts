@@ -56,7 +56,7 @@ export class NgxPagingComponent implements OnDestroy {
     if (page < 0)
       return;
 
-    
+
     if (page < this.firstPage)
       page = this.firstPage;
 
@@ -127,10 +127,25 @@ export class NgxPagingComponent implements OnDestroy {
     return (this.firstPage !== this.currentPage);
   }
 
-  // this should be odd number always
-  @Input() public maxPageCount: number = 7;
+  private _maxPageCount: number = 7;
+  public get maxPageCount(): number {
+    return this._maxPageCount;
+  }
+  public set maxPageCount(maxPageCount: number) {
+    // if the parameter is even number, then convert it to odd number
+    if (maxPageCount % 2 == 0)
+      maxPageCount++;
 
-  private generateAllPages() {
+    if (maxPageCount <= 0)
+      return;
+
+    if (maxPageCount > this.totalPagesCount)
+      maxPageCount = this.totalPagesCount;
+
+    this._maxPageCount = maxPageCount;
+  }
+
+  private generateAllPages(): Array<number> {
     const pages: Array<number> = [];
     for (let i = this.firstPage; i <= this.lastPage; i++)
       pages.push(i);
@@ -138,7 +153,7 @@ export class NgxPagingComponent implements OnDestroy {
     return pages;
   }
 
-  public generateMaxPage() {
+  private generateMaxPage(): Array<number> {
     const current = this.currentPage;
     const pageCount = this.totalPagesCount;
 
@@ -165,7 +180,7 @@ export class NgxPagingComponent implements OnDestroy {
     return pages;
   }
 
-  public generatePages(): Array<number> {
+  public get generatePages(): Array<number> {
     if (this.totalPagesCount <= this.maxPageCount)
       return this.generateAllPages();
     else
@@ -192,7 +207,7 @@ export class NgxPagingComponent implements OnDestroy {
     this.currentPage = this.lastPage;
   }
 
-  public get shouldPagingComponentBeHidden() {
+  public get shouldPagingComponentBeHidden(): boolean {
     return this.needPaging === false && this.showComponentAlways === false
   }
 

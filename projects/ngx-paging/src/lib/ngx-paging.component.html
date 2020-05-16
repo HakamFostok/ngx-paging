@@ -11,7 +11,7 @@
     <a (click)="goToPreviousPage()">{{ previousPageText }}</a>
   </li>
 
-  <li *ngFor="let page of generatePages()"
+  <li *ngFor="let page of generatePages"
       [class.active]="currentPage === page">
     <a (click)="currentPage = page">{{ page }}</a>
   </li>
