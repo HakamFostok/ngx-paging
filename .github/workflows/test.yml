@@ -19,11 +19,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - name: "checkout@v2"
+      uses: actions/checkout@v2
 
-    - name: install angular cli@9
-      run: npm install -g @angular/cli@9.1.5
+    - name: "Setup Node.js"
+      uses: actions/setup-node@v1
+      with:
+        node-version:13.x
+
+    - name: npm install
+      run: npm install --production
 
     - name: build library
       run: ng build --prod
