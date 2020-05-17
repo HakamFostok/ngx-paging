@@ -27,11 +27,11 @@ jobs:
       with:
         node-version: 12.x
 
-    - name: install angular@cli
-      uses: actions/setup-angular@cli
-
     - name: npm install
       run: npm install --production
+
+    - name: install angular@cli
+      uses: npm install -g @angular/cli@9.1.5
 
     - name: build library
       run: ng build --prod
