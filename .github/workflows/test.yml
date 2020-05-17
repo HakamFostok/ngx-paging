@@ -22,6 +22,12 @@ jobs:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
+    - name: install angular cli@9
+      run: npm install -g @angular/cli@9.1.5
+
+    - name: build library
+      run: ng build --prod
+
     # Runs a single command using the runners shell
     - name: Test
       run: ng test --source-map=false
