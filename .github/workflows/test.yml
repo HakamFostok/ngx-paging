@@ -27,6 +27,9 @@ jobs:
       with:
         node-version: 12.x
 
+    - name: install angular@cli
+      uses: actions/setup-angular@cli
+
     - name: npm install
       run: npm install --production
 
