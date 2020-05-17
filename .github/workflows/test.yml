@@ -19,24 +19,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-    - name: "checkout@v2"
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v1
 
-    - name: "Setup Node.js"
+    - name: Use Node.js 12.8
       uses: actions/setup-node@v1
       with:
-        node-version: 12.x
+        node-version: 12.8
 
-    - name: npm install
-      run: npm install --production
+    - name: Install dependencies
+      run: npm install
 
-    - name: install angular@cli
-      uses: npm install -g @angular/cli@9.1.5
-
-    - name: build library
-      run: ng build --prod
-
-    # Runs a single command using the runners shell
     - name: Test
-      run: ng test --source-map=false
-
+      run: npm test -- --source-map=false
+    
