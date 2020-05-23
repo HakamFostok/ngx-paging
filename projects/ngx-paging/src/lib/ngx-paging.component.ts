@@ -6,6 +6,7 @@ import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core
 })
 export class NgxPagingComponent implements OnDestroy {
 
+  
   /**
    * Specify the text that will be displayed on the first-page button.
    */
