@@ -30,18 +30,19 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "projects/ngx-paging/tsconfig.lib.json",
-              "projects/ngx-paging/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
+            "lintFilePatterns": [
+              "projects/ngx-paging/**/*.ts",
+              "projects/ngx-paging/**/*.html"
             ]
           }
         }
       }
-    }},
-  "defaultProject": "ngx-paging"
+    }
+  },
+  "defaultProject": "ngx-paging",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  }
 }
